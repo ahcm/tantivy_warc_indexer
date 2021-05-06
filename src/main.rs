@@ -15,13 +15,19 @@ const USAGE: &'static str = "
 WARC Indexer
 
 Usage:
-  warc_parser  <index> <warc_dir>
+  warc_parser [-t <threads>]  <index> <warc_dir>
+  warc_parser (-h | --help)
+
+Options:
+  -h --help     Show this help
+  -t <threads>  number of threads to use, default 4
 ";
 
 #[derive(Debug)]
 struct Args {
     arg_index: Vec<String>,
     arg_warc_dir: Vec<String>,
+    flag_threads: usize
 }
 
 #[derive(Debug)]
@@ -119,11 +125,14 @@ fn main() -> Result<(), std::io::Error>
 
     let index_dir = args.get_str("<index>");
     let warc_dir = args.get_str("<warc_dir>");
-    println!("{:?}", index_dir);
-    println!("{:?}", warc_dir);
+    let threads = args.get_str("-t");
+    let nthreads : usize = threads.parse().unwrap_or(4);
+    println!("Index dir: {:?}", index_dir);
+    println!("Warc dir: {:?}", warc_dir);
+    println!("Threads: {:?}", nthreads);
     let index_directory = PathBuf::from(index_dir);
     let index = Index::open_in_dir(&index_directory).expect("Tantivy Index Directory open failed");
-    let mut index_writer = index.writer_with_num_threads(64, 64 * 4095 * 1024 * 1024).expect("index writer failed");
+    let mut index_writer = index.writer_with_num_threads(nthreads, nthreads * 4095 * 1024 * 1024).expect("index writer failed");
 
     let schema = index.schema();
     let schema_uri   = schema.get_field("uri").unwrap();
