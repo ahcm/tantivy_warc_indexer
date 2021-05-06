@@ -168,6 +168,7 @@ fn main() -> Result<(), std::io::Error>
     }
 
     index_writer.commit().expect("commit");
+    index_writer.wait_merging_threads().expect("merging");
 
     Ok(())
 }
