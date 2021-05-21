@@ -1,9 +1,9 @@
 # tantivy_warc_indexer
 
-tantivy_warc_indexer builds a tantivy index from common crawl warc.wet files
+tantivy_warc_indexer builds a [tantivy](https://github.com/tantivy-search/tantivy) index from common crawl warc.wet files
 
 ## Build
-Install rust (e.g. via rustup).
+Install rust (e.g. via [rustup](https://rustup.rs)).
 ```
 make
 ```
