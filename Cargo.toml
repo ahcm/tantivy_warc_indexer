@@ -12,3 +12,4 @@ derive_builder = "*"
 docopt = "*"
 serde = { version = "*", features = ["derive"] }
 tantivy = "*"
+flate2 = { version = "*", features = ["zlib-ng-compat"], default-features = false }
