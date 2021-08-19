@@ -1,8 +1,12 @@
 [package]
 name = "tantivy_warc_indexer"
 version = "0.1.0"
-authors = ["andy"]
 edition = "2018"
+authors = ["Andreas Hauser <Andreas.Hauser@LMU.de>"]
+description = "Builds a tantivy index from common crawl warc.wet files"
+license = "CC-BY-SA-4.0"
+keywords = ["index", "command-line", "CLI", "tantivy", "common-crawl"]
+repository = "https://github.com/ahcm/tantivy_warc_indexer"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
