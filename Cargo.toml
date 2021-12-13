@@ -11,7 +11,6 @@ repository = "https://github.com/ahcm/tantivy_warc_indexer"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-warc = "^0.2"
 derive_builder = "^0.10"
 docopt = "^1.1"
 serde = { version = "^1.0", features = ["derive"] }
