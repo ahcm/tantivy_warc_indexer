@@ -31,7 +31,10 @@ pub fn extract_records_and_add_to_index(index: &Index, index_writer : &IndexWrit
         let mut doc = Document::default();
         let article = pubmed_article.medline_citation.expect("medline_citation")
                  .article.expect("article");
-        doc.add_text(schema_title, article.title.expect("title"));
+        if let Some(title) = article.title
+        {
+            doc.add_text(schema_title, title);
+        }
         doc.add_text(schema_journal, article.journal.expect("journal").title.expect("journal"));
         if let Some(abstract_text) = article.abstract_text
         {
