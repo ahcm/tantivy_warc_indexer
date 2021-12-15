@@ -37,7 +37,10 @@ pub fn extract_records_and_add_to_index(index: &Index, index_writer : &IndexWrit
         {
             for text in abstract_text.text
             {
-                doc.add_text(schema_body, text.value.expect("text"));
+                if let Some(value) = text.value
+                {
+                    doc.add_text(schema_body, value);
+                }
             }
         }
         index_writer.add_document(doc);
