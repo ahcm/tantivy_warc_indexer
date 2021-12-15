@@ -10,27 +10,38 @@ extern crate tantivy;
 use tantivy::Index;
 use flate2::read::MultiGzDecoder;
 mod warc;
+mod pubmed;
 
 
 const USAGE: &'static str = "
 WARC Indexer
 
 Usage:
-  warc_parser [-t <threads>] [--from <from>] [--to <to>] <index> <warc_dir>
+  warc_parser [-t <threads>] [--from <from>] [--to <to>] -s <format> <index> <warc_dir>
   warc_parser (-h | --help)
 
 Options:
   -h --help      Show this help
+  -s <source>    type of source files (WARC or ENTREZ)
   -t <threads>   number of threads to use, default 4
   --from <from>  skip files until from
   --to <to>      skip files after to
 ";
 
 #[derive(Debug)]
-struct Args {
+enum SourceType
+{
+    WARC,
+    ENTREZ
+}
+
+#[derive(Debug)]
+struct Args
+{
     arg_index: Vec<String>,
     arg_warc_dir: Vec<String>,
-    flag_threads: usize
+    flag_threads: usize,
+    flag_source: SourceType
 }
 
 
@@ -40,6 +51,7 @@ fn main() -> Result<(), std::io::Error>
         .and_then(|d| d.argv(std::env::args().into_iter()).parse())
         .unwrap_or_else(|e| e.exit());
 
+    let source_type = args.get_str("-s");
     let index_dir = args.get_str("<index>");
     let warc_dir  = args.get_str("<warc_dir>");
     let threads   = args.get_str("-t");
@@ -75,10 +87,21 @@ fn main() -> Result<(), std::io::Error>
             Some(extension) =>
                 if extension == OsStr::new("gz")
                 {
-                    warc::extract_records_and_add_to_index(&index,
+                    println!("gzipped {}", source_type);
+                    match source_type
+                    {
+                        "WARC" =>
+                            warc::extract_records_and_add_to_index(&index,
                                                      &index_writer,
                                                      &mut io::BufReader::with_capacity(PER_THREAD_BUF_SIZE, MultiGzDecoder::new(file) )
-                                                    )?;
+                                                    )?,
+                        "ENTREZ" =>
+                            pubmed::extract_records_and_add_to_index(&index,
+                                                     &index_writer,
+                                                     &mut io::BufReader::with_capacity(PER_THREAD_BUF_SIZE, MultiGzDecoder::new(file) )
+                                                     )?,
+                            _ => eprintln!("Unknown source type {}", source_type)
+                    }
                 }
                 else if extension == OsStr::new("wet")
                 {
