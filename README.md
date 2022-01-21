@@ -13,11 +13,12 @@ make
 WARC Indexer
 
 Usage:
-  warc_parser [-t <threads>] [--from <from>] [--to <to>] <index> <warc_dir>
+  warc_parser [-t <threads>] [--from <from>] [--to <to>] -s <format> <index> <warc_dir>
   warc_parser (-h | --help)
 
 Options:
   -h --help      Show this help
+  -s <source>    type of source files (WARC or ENTREZ)
   -t <threads>   number of threads to use, default 4
   --from <from>  skip files until from
   --to <to>      skip files after to
