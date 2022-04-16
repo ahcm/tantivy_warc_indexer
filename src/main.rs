@@ -9,8 +9,10 @@ use docopt::Docopt;
 extern crate tantivy;
 use tantivy::Index;
 use flate2::read::MultiGzDecoder;
+
 mod warc;
 mod pubmed;
+mod wikipedia_abstract;
 
 
 const USAGE: &'static str = "
@@ -22,7 +24,7 @@ Usage:
 
 Options:
   -h --help      Show this help
-  -s <source>    type of source files (WARC or ENTREZ)
+  -s <source>    type of source files (WARC or ENTREZ or WIKIPEDIA_ABSTRACT)
   -t <threads>   number of threads to use, default 4
   --from <from>  skip files until from
   --to <to>      skip files after to
@@ -32,6 +34,7 @@ Options:
 enum SourceType
 {
     WARC,
+    WIKIPEDIA_ABSTRACT,
     ENTREZ
 }
 
@@ -92,6 +95,11 @@ fn main() -> Result<(), std::io::Error>
                     {
                         "WARC" =>
                             warc::extract_records_and_add_to_index(&index,
+                                                     &index_writer,
+                                                     &mut io::BufReader::with_capacity(PER_THREAD_BUF_SIZE, MultiGzDecoder::new(file) )
+                                                    )?,
+                        "WIKIPEDIA_ABSTRACT" =>
+                            wikipedia_abstract::extract_records_and_add_to_index(&index,
                                                      &index_writer,
                                                      &mut io::BufReader::with_capacity(PER_THREAD_BUF_SIZE, MultiGzDecoder::new(file) )
                                                     )?,
