@@ -1,6 +1,6 @@
 # tantivy_warc_indexer
 
-tantivy_warc_indexer builds a [tantivy](https://github.com/tantivy-search/tantivy) index from common crawl warc.wet files
+tantivy_warc_indexer builds a [tantivy](https://github.com/tantivy-search/tantivy) index from common crawl warc.wet files and pubmed entrez articles.
 
 ## Build
 Install rust (e.g. via [rustup](https://rustup.rs)).
@@ -18,10 +18,10 @@ Usage:
 
 Options:
   -h --help      Show this help
-  -s <source>    type of source files (WARC or ENTREZ)
+  -s <source>    type of source files (WARC or ENTREZ or WIKIPEDIA_ABSTRACT)
   -t <threads>   number of threads to use, default 4
   --from <from>  skip files until from
-  --to <to>      skip files after to
+  --to <to>      skip files after to``
 ```
 
 ## Run
@@ -30,7 +30,7 @@ Where <index> is the directory of an empty index you created e.g. tantivy-cli
 and <warc_dir> the path to the directory with the common crawl warc.wet or warc.wet.gz files.
 Depending on your system this might take a few days or weeks.
 ```
-./target/release/tantivy_warc_indexer ../common_crawl_tantivy_index ../wet
+./target/release/tantivy_warc_indexer -s WARC ../common_crawl_tantivy_index ../wet
 ```
 To create an index:
 ```
