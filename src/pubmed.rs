@@ -9,15 +9,19 @@ use tantivy::IndexWriter;
 
 use entrez_rs::parser::pubmed::PubmedArticleSet;
 
-pub fn extract_records_and_add_to_index(index: &Index, index_writer : &IndexWriter, reader : &mut dyn BufRead) -> io::Result<()>
+pub fn extract_records_and_add_to_index(
+    index: &Index,
+    index_writer: &IndexWriter,
+    reader: &mut dyn BufRead,
+) -> io::Result<()>
 {
     let schema = index.schema();
     //let schema_uri   = schema.get_field("uri").unwrap();
     let schema_title = schema.get_field("title").unwrap();
-    let schema_body  = schema.get_field("body").unwrap();
+    let schema_body = schema.get_field("body").unwrap();
     //let schema_date  = schema.get_field("pubdate").unwrap();
     //let schema_authors  = schema.get_field("author").unwrap();
-    let schema_journal  = schema.get_field("journal").unwrap();
+    let schema_journal = schema.get_field("journal").unwrap();
 
     let mut doc = String::new();
     reader.read_to_string(&mut doc).expect("read file");
@@ -26,11 +30,17 @@ pub fn extract_records_and_add_to_index(index: &Index, index_writer : &IndexWrit
     for pubmed_article in pm_parsed.expect("parsed").articles
     {
         count += 1;
-        if count % 1000 == 0 { eprint!("."); }
+        if count % 1000 == 0
+        {
+            eprint!(".");
+        }
 
         let mut doc = Document::default();
-        let article = pubmed_article.medline_citation.expect("medline_citation")
-                 .article.expect("article");
+        let article = pubmed_article
+            .medline_citation
+            .expect("medline_citation")
+            .article
+            .expect("article");
         if let Some(title) = article.title
         {
             doc.add_text(schema_title, title);
