@@ -1,7 +1,7 @@
 [package]
 name = "tantivy_warc_indexer"
-version = "0.2.1"
-edition = "2018"
+version = "0.3.0"
+edition = "2024"
 authors = ["Andreas Hauser <Andreas.Hauser@LMU.de>"]
 description = "Builds a tantivy index from common crawl warc.wet files"
 license = "CC-BY-SA-4.0"
@@ -11,10 +11,10 @@ repository = "https://github.com/ahcm/tantivy_warc_indexer"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-derive_builder = "^0.10"
+derive_builder = "^0.20"
 docopt = "^1.1"
 serde = { version = "^1.0", features = ["derive"] }
-tantivy = "^0.15"
+tantivy = "^0.22"
 flate2 = { version = "^1.0", features = ["zlib-ng-compat"], default-features = false }
-serde-xml-rs = "^0.5"
+serde-xml-rs = "^0.6"
 entrez-rs = "0.1.4"

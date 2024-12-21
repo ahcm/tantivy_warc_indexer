@@ -3,13 +3,13 @@ use std::io;
 use std::io::BufRead;
 
 extern crate tantivy;
-use tantivy::Document;
 use tantivy::Index;
 use tantivy::IndexWriter;
 
 use serde;
 use serde::{Deserialize, Serialize};
-use serde_xml_rs::{from_str, to_string};
+use serde_xml_rs::from_str;
+use tantivy::TantivyDocument;
 
 #[derive(Debug, Serialize, Deserialize, PartialEq)]
 struct Feed
@@ -50,7 +50,7 @@ pub fn extract_records_and_add_to_index(
             eprint!(".");
         }
 
-        let mut doc = Document::default();
+        let mut doc = TantivyDocument::default();
         doc.add_text(schema_title, doc_entry.title);
         doc.add_text(schema_body, doc_entry.r#abstract);
         doc.add_text(schema_uri, doc_entry.url);

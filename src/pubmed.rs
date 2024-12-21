@@ -3,11 +3,11 @@ use std::io;
 use std::io::BufRead;
 
 extern crate tantivy;
-use tantivy::Document;
 use tantivy::Index;
 use tantivy::IndexWriter;
 
 use entrez_rs::parser::pubmed::PubmedArticleSet;
+use tantivy::TantivyDocument;
 
 pub fn extract_records_and_add_to_index(
     index: &Index,
@@ -35,7 +35,7 @@ pub fn extract_records_and_add_to_index(
             eprint!(".");
         }
 
-        let mut doc = Document::default();
+        let mut doc = TantivyDocument::default();
         let article = pubmed_article
             .medline_citation
             .expect("medline_citation")

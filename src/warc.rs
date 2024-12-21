@@ -5,9 +5,9 @@ use std::io::BufRead;
 
 extern crate tantivy;
 use std::io::Read;
-use tantivy::Document;
 use tantivy::Index;
 use tantivy::IndexWriter;
+use tantivy::TantivyDocument;
 
 #[derive(Debug)]
 enum WARCType
@@ -147,7 +147,7 @@ pub fn extract_records_and_add_to_index(
                 }
 
                 let body = std::str::from_utf8(&record.payload).expect("convert to utf8 failed");
-                let mut doc = Document::default();
+                let mut doc = TantivyDocument::default();
                 doc.add_text(schema_uri, &record.header.get("WARC-Target-URI").expect("get uri"));
                 doc.add_text(schema_date, &record.header.get("WARC-Date").expect("get date"));
                 doc.add_text(schema_body, body);
