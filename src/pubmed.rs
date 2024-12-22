@@ -56,7 +56,9 @@ pub fn extract_records_and_add_to_index(
                 }
             }
         }
-        index_writer.add_document(doc);
+        index_writer
+            .add_document(doc)
+            .expect("Adding document failed");
     }
     println!("\nTotal Records of WARC file processed: {}", count);
     Ok(())

@@ -54,7 +54,9 @@ pub fn extract_records_and_add_to_index(
         doc.add_text(schema_title, doc_entry.title);
         doc.add_text(schema_body, doc_entry.r#abstract);
         doc.add_text(schema_uri, doc_entry.url);
-        index_writer.add_document(doc);
+        index_writer
+            .add_document(doc)
+            .expect("Adding document failed");
     }
     println!("\nTotal Records of WARC file processed: {}", count);
     Ok(())

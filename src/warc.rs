@@ -24,8 +24,10 @@ enum WARCType
 
 struct WARCRecord
 {
+    #[allow(dead_code)]
     warc_version: String,
     warc_type: WARCType,
+    #[allow(dead_code)]
     content_length: usize,
     payload: Vec<u8>,
     header: HashMap<String, String>,
@@ -152,7 +154,9 @@ pub fn extract_records_and_add_to_index(
                 doc.add_text(schema_date, &record.header.get("WARC-Date").expect("get date"));
                 doc.add_text(schema_body, body);
                 doc.add_text(schema_title, body.lines().next().expect("title"));
-                index_writer.add_document(doc);
+                index_writer
+                    .add_document(doc)
+                    .expect("Adding document failed");
             }
             _ => (),
         }

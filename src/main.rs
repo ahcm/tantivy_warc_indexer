@@ -30,6 +30,8 @@ Options:
 ";
 
 #[derive(Debug)]
+#[allow(non_camel_case_types)]
+#[allow(dead_code)]
 enum SourceType
 {
     WARC,
@@ -38,6 +40,7 @@ enum SourceType
 }
 
 #[derive(Debug)]
+#[allow(dead_code)]
 struct Args
 {
     arg_index: Vec<String>,
