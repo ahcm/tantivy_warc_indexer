@@ -14,7 +14,10 @@ repository = "https://github.com/ahcm/tantivy_warc_indexer"
 derive_builder = "^0.20"
 docopt = "^1.1"
 serde = { version = "^1.0", features = ["derive"] }
-tantivy = "^0.22"
-flate2 = { version = "^1.0", features = ["zlib-ng-compat"], default-features = false }
-serde-xml-rs = "^0.6"
+tantivy = "^0.26"
+flate2 = { version = "^1.1", features = ["zlib-ng-compat"], default-features = false }
+serde-xml-rs = "^0.8"
 entrez-rs = "0.1.4"
+
+[patch.crates-io]
+entrez-rs = { path = "vendor/entrez-rs" }
