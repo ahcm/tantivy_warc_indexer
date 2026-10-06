@@ -60,6 +60,6 @@ pub fn extract_records_and_add_to_index(
             .add_document(doc)
             .expect("Adding document failed");
     }
-    println!("\nTotal Records of WARC file processed: {}", count);
+    println!("\nTotal Records of PUBMED processed: {}", count);
     Ok(())
 }
